@@ -1,0 +1,44 @@
+@import "tailwindcss";
+
+:root {
+  --font-scale: 1;
+  color-scheme: light dark;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, 'SF Pro Text', system-ui, 'Segoe UI', Roboto, sans-serif;
+  background: #0b1220;
+  color: #e8edf7;
+  font-size: calc(19px * var(--font-scale));
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Comfortable large tap targets + readable text app-wide */
+button, input, select, textarea {
+  font-family: inherit;
+}
+
+::selection {
+  background: #38bdf8;
+  color: #06121f;
+}
+
+@media print {
+  .no-print { display: none !important; }
+}
