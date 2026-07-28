@@ -17,7 +17,9 @@ export type BlockType =
   | 'warning'
   | 'timeline'
   | 'list'
-  | 'payoffChart';
+  | 'payoffChart'
+  | 'optionQuadrant'
+  | 'strategyLegs';
 
 export interface ParaBlock { type: 'para'; text: string }
 export interface KeyTermBlock { type: 'keyterm'; term: string; definition: string }
@@ -57,6 +59,39 @@ export interface PayoffChartBlock {
   note?: string;
 }
 
+/** One of the four canonical option positions, made concrete: what you actually hold and why. */
+export interface OptionPositionCard {
+  name: string; // "Long Call"
+  action: 'Buy' | 'Sell';
+  right: 'Right' | 'Obligation';
+  premium: 'Pays premium' | 'Receives premium';
+  view: 'Bullish' | 'Bearish';
+  risk: string; // e.g. "Loss limited to premium"
+  reward: string; // e.g. "Profit unlimited"
+}
+
+export interface OptionQuadrantBlock {
+  type: 'optionQuadrant';
+  title: string;
+  cards: OptionPositionCard[];
+}
+
+/** One leg of a multi-leg strategy (spread, straddle, collar, calendar spread, ...). */
+export interface StrategyLeg {
+  action: 'Buy' | 'Sell';
+  instrument: string; // e.g. "Near-month Futures", "6,000 Call", "Stock"
+  right: 'Right' | 'Obligation';
+  premium?: string; // e.g. "₹145 paid", "₹10 received"
+}
+
+export interface StrategyLegsBlock {
+  type: 'strategyLegs';
+  title: string;
+  legs: StrategyLeg[];
+  view?: string; // the market expectation this strategy expresses
+  netCost?: string; // e.g. "Net debit ₹30 (max loss)"
+}
+
 export type ContentBlock =
   | ParaBlock
   | KeyTermBlock
@@ -68,7 +103,9 @@ export type ContentBlock =
   | WarningBlock
   | TimelineBlock
   | ListBlock
-  | PayoffChartBlock;
+  | PayoffChartBlock
+  | OptionQuadrantBlock
+  | StrategyLegsBlock;
 
 export interface Section {
   id: string;

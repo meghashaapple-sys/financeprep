@@ -130,6 +130,16 @@ const chapter: Chapter = {
             'An arbitrage between futures contracts on the same underlying but with two different expiry months — buy the underpriced-month contract and sell the overpriced-month contract, profiting when the spread between the two prices reverts to its fair value.',
         },
         {
+          type: 'strategyLegs',
+          title: 'Calendar spread — the two legs',
+          view: 'No directional view on the stock — this is a bet purely on the near-vs-far price GAP correcting, not on which way the stock moves.',
+          legs: [
+            { action: 'Sell', instrument: 'Near-month Futures (overpriced leg)', right: 'Obligation', premium: 'Sold at ₹121.30' },
+            { action: 'Buy', instrument: 'Far-month Futures (underpriced leg)', right: 'Obligation', premium: 'Bought at ₹121.50' },
+          ],
+          netCost: 'Both legs are futures — both are full obligations. There is no premium outlay, only margin on both legs.',
+        },
+        {
           type: 'example',
           title: 'Calendar spread arbitrage',
           text: 'A stock trades at ₹120; the near-month futures is at ₹121.30 and the mid-month futures at ₹121.50 — a spread of just ₹0.20. At an 8% p.a. cost of carry, the fair spread between one-month and two-month futures should be closer to ₹0.81 (fair near-month ≈ ₹120.80, fair mid-month ≈ ₹121.61). The narrow actual spread means the near-month contract is overpriced relative to the mid-month, so the arbitrageur shorts the near-month futures at ₹121.30 and goes long the mid-month futures at ₹121.50. If the spread later widens back towards fair value — e.g., the stock settles near-month expiry at ₹122 while mid-month trades at ₹122.82 — the position nets a small gain (about ₹0.62 per share) regardless of which way the stock actually moved.',
@@ -246,6 +256,16 @@ const chapter: Chapter = {
           text: 'With the stock at ₹6,100, an OTM 6,200 call costs ₹145 and an OTM 6,000 put costs ₹140 (total premium ₹285, cheaper than the straddle above). Maximum loss (₹285) occurs anywhere the stock finishes between the two strikes (₹6,000–₹6,200). If the stock falls to ₹5,700, the put nets ₹160 against the lost ₹145 call premium, a net gain of ₹15; if it rallies to ₹6,800, the call nets ₹455 against the lost ₹140 put premium, a net gain of ₹315. Break-even points are 5,715 and 6,485 — further apart than the straddle\'s, since the strangle needs a larger move to clear both strikes and recover the smaller premium paid.',
         },
         {
+          type: 'strategyLegs',
+          title: 'Long Straddle — the two legs',
+          view: 'Expects a BIG move but is unsure of direction — profits whether the stock rallies hard or falls hard.',
+          legs: [
+            { action: 'Buy', instrument: '6,000 Call', right: 'Right', premium: '₹257 paid' },
+            { action: 'Buy', instrument: '6,000 Put (same strike)', right: 'Right', premium: '₹136 paid' },
+          ],
+          netCost: 'Net debit ₹393 (max loss) — both legs are rights, so risk is capped even though two premiums are paid.',
+        },
+        {
           type: 'payoffChart',
           title: 'Long Straddle — 6,000 call + 6,000 put',
           subtitle: 'A "V" shape: maximum loss (the total premium) sits exactly at the strike; profit grows in either direction',
@@ -258,6 +278,16 @@ const chapter: Chapter = {
           breakevens: [5607, 6393],
           maxProfit: { value: 'Unlimited' },
           maxLoss: { value: 393, atLabel: 'exactly at the strike' },
+        },
+        {
+          type: 'strategyLegs',
+          title: 'Long Strangle — the two legs',
+          view: 'Same "big move, either direction" view as the straddle, but cheaper to set up because both strikes are OTM.',
+          legs: [
+            { action: 'Buy', instrument: '6,200 Call (OTM)', right: 'Right', premium: '₹145 paid' },
+            { action: 'Buy', instrument: '6,000 Put (OTM)', right: 'Right', premium: '₹140 paid' },
+          ],
+          netCost: 'Net debit ₹285 (max loss, anywhere between the two strikes) — cheaper than the straddle\'s ₹393.',
         },
         {
           type: 'payoffChart',
@@ -308,6 +338,16 @@ const chapter: Chapter = {
           text: 'Buy the stock at ₹1,590 and sell the 1,600 call for a premium of ₹10. If the stock rises to ₹1,640, the ₹50 gain in the cash position is partly offset by a ₹30 loss on the short call, netting ₹20 (the maximum profit, capped once the stock is above 1,600). If the stock falls to ₹1,520, the ₹70 cash-market loss is cushioned only by the ₹10 premium kept, netting a loss of ₹60. Break-even = purchase price − premium received = 1,590 − 10 = 1,580.',
         },
         {
+          type: 'strategyLegs',
+          title: 'Covered Call — the two legs',
+          view: 'Mildly bullish to neutral — happy to earn income if the stock drifts sideways or rises only modestly, gives up gains beyond the strike.',
+          legs: [
+            { action: 'Buy', instrument: 'Stock (existing holding)', right: 'Obligation', premium: 'Bought at ₹1,590' },
+            { action: 'Sell', instrument: '1,600 Call', right: 'Obligation', premium: '₹10 received' },
+          ],
+          netCost: 'The stock leg is always an "obligation" in the sense that you own it outright and bear its full downside — the call you sold adds a second obligation: to deliver the stock if exercised.',
+        },
+        {
           type: 'payoffChart',
           title: 'Covered Call — long stock at ₹1,590 + short 1,600 call',
           subtitle: 'Upside capped once the stock crosses the strike; downside keeps falling with the stock, cushioned only by the premium',
@@ -339,6 +379,17 @@ const chapter: Chapter = {
           text: 'Continuing the covered call above (long stock at 1,590, short 1,600 call at ₹10 premium), also buy the 1,580 put for ₹7. If the stock falls to ₹1,490, the ₹100 cash-market loss is now mostly offset by the ₹83 gain on the long put plus the ₹10 call premium, netting a much smaller loss of ₹7 (versus −₹90 for the plain covered call). If the stock rises to ₹1,690, the maximum profit is now ₹13 (=100−80−7), slightly lower than the ₹20 cap on the plain covered call, because of the premium paid for the protective put.',
         },
         {
+          type: 'strategyLegs',
+          title: 'Collar — the three legs',
+          view: 'Neutral — willing to give up upside beyond the call strike in exchange for a guaranteed floor below the put strike.',
+          legs: [
+            { action: 'Buy', instrument: 'Stock (existing holding)', right: 'Obligation', premium: 'Bought at ₹1,590' },
+            { action: 'Sell', instrument: '1,600 Call', right: 'Obligation', premium: '₹10 received' },
+            { action: 'Buy', instrument: '1,580 Put', right: 'Right', premium: '₹7 paid' },
+          ],
+          netCost: 'Net premium: ₹10 received − ₹7 paid = ₹3 net credit — the put "right" is what turns the covered call\'s open-ended downside into a hard floor.',
+        },
+        {
           type: 'payoffChart',
           title: 'Collar — covered call + protective put (floor 1,580)',
           subtitle: 'Both the profit and the loss are now capped — the "cap the tails" trade-off',
@@ -363,6 +414,17 @@ const chapter: Chapter = {
           type: 'example',
           title: 'Butterfly spread (using calls) — worked numbers',
           text: 'Long the 6,000 call (premium ₹230), short two 6,100 calls (premium ₹150 each), long the 6,200 call (premium ₹100). Net cost to set up = −230+150+150−100 = −₹30 (this is the maximum loss, occurring at or below 6,000, or at/above 6,200). At the middle strike of 6,100, the position earns its maximum profit of ₹70. Break-even points = lower strike + net debit = 6,030, and higher strike − net debit = 6,170.',
+        },
+        {
+          type: 'strategyLegs',
+          title: 'Long Butterfly — the four legs',
+          view: 'Neutral, pinpointed — expects the stock to settle very close to the middle strike (6,100) and stay away from both wings.',
+          legs: [
+            { action: 'Buy', instrument: '6,000 Call (lower wing)', right: 'Right', premium: '₹230 paid' },
+            { action: 'Sell', instrument: '6,100 Call, ×2 (middle)', right: 'Obligation', premium: '₹150 received each' },
+            { action: 'Buy', instrument: '6,200 Call (upper wing)', right: 'Right', premium: '₹100 paid' },
+          ],
+          netCost: 'Net debit ₹30 (max loss) = 230 − 150 − 150 + 100. The two long "wing" legs are what cap the short middle legs\' otherwise unlimited risk.',
         },
         {
           type: 'payoffChart',
@@ -409,6 +471,16 @@ const chapter: Chapter = {
           type: 'example',
           title: 'Protective put — worked numbers',
           text: 'A fund manager holds stock bought at ₹1,600 and buys the 1,600 put for a premium of ₹20. If the stock falls to ₹1,530, the ₹70 cash-market loss is offset by a ₹50 gain on the long put, capping the net loss at ₹20 (the premium paid) — however far the stock falls, the loss never exceeds ₹20. If the stock rises to ₹1,660, the ₹60 cash-market gain is reduced by the ₹20 premium paid, netting ₹40 — and profits keep rising one-for-one with the stock above this point.',
+        },
+        {
+          type: 'strategyLegs',
+          title: 'Protective Put — the two legs',
+          view: 'Bullish to neutral, but risk-averse — wants to stay invested for the upside while insuring against a sharp fall.',
+          legs: [
+            { action: 'Buy', instrument: 'Stock (existing holding)', right: 'Obligation', premium: 'Bought at ₹1,600' },
+            { action: 'Buy', instrument: '1,600 Put', right: 'Right', premium: '₹20 paid' },
+          ],
+          netCost: 'Unlike the covered call, both legs here are on the "buy" side — the put is a right you hold, purely insurance, costing a premium instead of earning one.',
         },
         {
           type: 'payoffChart',

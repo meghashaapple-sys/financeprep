@@ -1,5 +1,6 @@
 import type { ContentBlock } from '../types';
 import { PayoffChart } from './PayoffChart';
+import { OptionQuadrant, StrategyLegsView } from './StrategyVisuals';
 
 function Para({ text }: { text: string }) {
   return <p className="text-[1.05em] leading-relaxed text-slate-200 mb-4">{text}</p>;
@@ -168,6 +169,10 @@ export function ContentBlockRenderer({ block }: { block: ContentBlock }) {
       return <ListBlock ordered={block.ordered} items={block.items} />;
     case 'payoffChart':
       return <PayoffChart block={block} />;
+    case 'optionQuadrant':
+      return <OptionQuadrant block={block} />;
+    case 'strategyLegs':
+      return <StrategyLegsView block={block} />;
     default:
       return null;
   }
