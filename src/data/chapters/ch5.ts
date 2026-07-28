@@ -246,6 +246,35 @@ const chapter: Chapter = {
           text: 'With the stock at ₹6,100, an OTM 6,200 call costs ₹145 and an OTM 6,000 put costs ₹140 (total premium ₹285, cheaper than the straddle above). Maximum loss (₹285) occurs anywhere the stock finishes between the two strikes (₹6,000–₹6,200). If the stock falls to ₹5,700, the put nets ₹160 against the lost ₹145 call premium, a net gain of ₹15; if it rallies to ₹6,800, the call nets ₹455 against the lost ₹140 put premium, a net gain of ₹315. Break-even points are 5,715 and 6,485 — further apart than the straddle\'s, since the strangle needs a larger move to clear both strikes and recover the smaller premium paid.',
         },
         {
+          type: 'payoffChart',
+          title: 'Long Straddle — 6,000 call + 6,000 put',
+          subtitle: 'A "V" shape: maximum loss (the total premium) sits exactly at the strike; profit grows in either direction',
+          xLabel: 'Stock price at expiry',
+          points: [
+            { x: 5300, y: 307 },
+            { x: 6000, y: -393 },
+            { x: 6700, y: 307 },
+          ],
+          breakevens: [5607, 6393],
+          maxProfit: { value: 'Unlimited' },
+          maxLoss: { value: 393, atLabel: 'exactly at the strike' },
+        },
+        {
+          type: 'payoffChart',
+          title: 'Long Strangle — 6,200 call + 6,000 put',
+          subtitle: 'Same "V" idea as the straddle, but flat-bottomed between the two OTM strikes — cheaper, needs a bigger move',
+          xLabel: 'Stock price at expiry',
+          points: [
+            { x: 5700, y: 15 },
+            { x: 6000, y: -285 },
+            { x: 6200, y: -285 },
+            { x: 6800, y: 315 },
+          ],
+          breakevens: [5715, 6485],
+          maxProfit: { value: 'Unlimited' },
+          maxLoss: { value: 285, atLabel: 'anywhere between the two strikes' },
+        },
+        {
           type: 'table',
           headers: ['Feature', 'Long Straddle', 'Long Strangle', 'Short Straddle', 'Short Strangle'],
           rows: [
@@ -279,6 +308,20 @@ const chapter: Chapter = {
           text: 'Buy the stock at ₹1,590 and sell the 1,600 call for a premium of ₹10. If the stock rises to ₹1,640, the ₹50 gain in the cash position is partly offset by a ₹30 loss on the short call, netting ₹20 (the maximum profit, capped once the stock is above 1,600). If the stock falls to ₹1,520, the ₹70 cash-market loss is cushioned only by the ₹10 premium kept, netting a loss of ₹60. Break-even = purchase price − premium received = 1,590 − 10 = 1,580.',
         },
         {
+          type: 'payoffChart',
+          title: 'Covered Call — long stock at ₹1,590 + short 1,600 call',
+          subtitle: 'Upside capped once the stock crosses the strike; downside keeps falling with the stock, cushioned only by the premium',
+          xLabel: 'Stock price at expiry',
+          points: [
+            { x: 1500, y: -80 },
+            { x: 1600, y: 20 },
+            { x: 1700, y: 20 },
+          ],
+          breakevens: [1580],
+          maxProfit: { value: 20, atLabel: 'at or above strike' },
+          note: 'Max loss is not shown as a fixed number here — like plain stock ownership, the loss keeps growing as the stock falls, just ₹10 less steep than owning the stock outright thanks to the premium received.',
+        },
+        {
           type: 'callout',
           tone: 'exam',
           title: 'Synthetic short put',
@@ -296,6 +339,21 @@ const chapter: Chapter = {
           text: 'Continuing the covered call above (long stock at 1,590, short 1,600 call at ₹10 premium), also buy the 1,580 put for ₹7. If the stock falls to ₹1,490, the ₹100 cash-market loss is now mostly offset by the ₹83 gain on the long put plus the ₹10 call premium, netting a much smaller loss of ₹7 (versus −₹90 for the plain covered call). If the stock rises to ₹1,690, the maximum profit is now ₹13 (=100−80−7), slightly lower than the ₹20 cap on the plain covered call, because of the premium paid for the protective put.',
         },
         {
+          type: 'payoffChart',
+          title: 'Collar — covered call + protective put (floor 1,580)',
+          subtitle: 'Both the profit and the loss are now capped — the "cap the tails" trade-off',
+          xLabel: 'Stock price at expiry',
+          points: [
+            { x: 1490, y: -7 },
+            { x: 1580, y: -7 },
+            { x: 1600, y: 13 },
+            { x: 1690, y: 13 },
+          ],
+          breakevens: [1587],
+          maxProfit: { value: 13, atLabel: 'at or above call strike 1,600' },
+          maxLoss: { value: 7, atLabel: 'at or below put strike 1,580' },
+        },
+        {
           type: 'keyterm',
           term: 'Butterfly spread',
           definition:
@@ -305,6 +363,22 @@ const chapter: Chapter = {
           type: 'example',
           title: 'Butterfly spread (using calls) — worked numbers',
           text: 'Long the 6,000 call (premium ₹230), short two 6,100 calls (premium ₹150 each), long the 6,200 call (premium ₹100). Net cost to set up = −230+150+150−100 = −₹30 (this is the maximum loss, occurring at or below 6,000, or at/above 6,200). At the middle strike of 6,100, the position earns its maximum profit of ₹70. Break-even points = lower strike + net debit = 6,030, and higher strike − net debit = 6,170.',
+        },
+        {
+          type: 'payoffChart',
+          title: 'Long Butterfly (calls) — buy 6,000 & 6,200, sell two 6,100',
+          subtitle: 'The "pin the middle strike" shape: small, limited loss on both tails, small, limited profit if the stock lands near the middle strike',
+          xLabel: 'Stock price at expiry',
+          points: [
+            { x: 5900, y: -30 },
+            { x: 6000, y: -30 },
+            { x: 6100, y: 70 },
+            { x: 6200, y: -30 },
+            { x: 6300, y: -30 },
+          ],
+          breakevens: [6030, 6170],
+          maxProfit: { value: 70, atLabel: 'exactly at the middle strike' },
+          maxLoss: { value: 30, atLabel: 'at or beyond either outer strike' },
         },
         {
           type: 'para',
@@ -335,6 +409,20 @@ const chapter: Chapter = {
           type: 'example',
           title: 'Protective put — worked numbers',
           text: 'A fund manager holds stock bought at ₹1,600 and buys the 1,600 put for a premium of ₹20. If the stock falls to ₹1,530, the ₹70 cash-market loss is offset by a ₹50 gain on the long put, capping the net loss at ₹20 (the premium paid) — however far the stock falls, the loss never exceeds ₹20. If the stock rises to ₹1,660, the ₹60 cash-market gain is reduced by the ₹20 premium paid, netting ₹40 — and profits keep rising one-for-one with the stock above this point.',
+        },
+        {
+          type: 'payoffChart',
+          title: 'Protective Put — long stock at ₹1,600 + long 1,600 put',
+          subtitle: 'A hard floor at the premium paid, with the stock\'s full upside left open',
+          xLabel: 'Stock price at expiry',
+          points: [
+            { x: 1500, y: -20 },
+            { x: 1600, y: -20 },
+            { x: 1700, y: 80 },
+          ],
+          breakevens: [1620],
+          maxProfit: { value: 'Unlimited' },
+          maxLoss: { value: 20, atLabel: 'at or below strike (the floor)' },
         },
         {
           type: 'callout',

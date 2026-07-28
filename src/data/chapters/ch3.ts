@@ -297,6 +297,32 @@ const chapter: Chapter = {
           ],
         },
         {
+          type: 'payoffChart',
+          title: 'Long Futures — bought at ₹200',
+          subtitle: 'A straight 45° line through the trade price: unlimited profit above it, unlimited loss below it, no premium either way',
+          xLabel: 'Market price at expiry',
+          points: [
+            { x: 140, y: -60 },
+            { x: 260, y: 60 },
+          ],
+          breakevens: [200],
+          maxProfit: { value: 'Unlimited' },
+          maxLoss: { value: 'Unlimited' },
+        },
+        {
+          type: 'payoffChart',
+          title: 'Short Futures — sold at ₹200',
+          subtitle: 'The exact mirror image of the long position around the trade price',
+          xLabel: 'Market price at expiry',
+          points: [
+            { x: 140, y: 60 },
+            { x: 260, y: -60 },
+          ],
+          breakevens: [200],
+          maxProfit: { value: 'Unlimited' },
+          maxLoss: { value: 'Unlimited' },
+        },
+        {
           type: 'example',
           title: 'Reading the payoff table',
           text:

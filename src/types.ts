@@ -16,7 +16,8 @@ export type BlockType =
   | 'mnemonic'
   | 'warning'
   | 'timeline'
-  | 'list';
+  | 'list'
+  | 'payoffChart';
 
 export interface ParaBlock { type: 'para'; text: string }
 export interface KeyTermBlock { type: 'keyterm'; term: string; definition: string }
@@ -29,6 +30,33 @@ export interface WarningBlock { type: 'warning'; title: string; text: string }
 export interface TimelineBlock { type: 'timeline'; items: { year: string; text: string }[] }
 export interface ListBlock { type: 'list'; ordered?: boolean; items: string[] }
 
+export interface PayoffPoint {
+  x: number;
+  y: number;
+}
+
+export interface PayoffLeg {
+  name: string;
+  points: PayoffPoint[];
+}
+
+/** A real profit/loss-at-expiry chart (the "hockey stick" diagram), not a text description. */
+export interface PayoffChartBlock {
+  type: 'payoffChart';
+  title: string;
+  subtitle?: string;
+  xLabel: string;
+  /** The main/combined payoff line, piecewise-linear, sorted by x. */
+  points: PayoffPoint[];
+  /** Optional thin reference lines for individual legs of a multi-leg strategy. */
+  legs?: PayoffLeg[];
+  /** X-values where the combined line crosses zero, marked and labeled "BEP". */
+  breakevens?: number[];
+  maxProfit?: { value: number | 'Unlimited'; atLabel?: string };
+  maxLoss?: { value: number | 'Unlimited'; atLabel?: string };
+  note?: string;
+}
+
 export type ContentBlock =
   | ParaBlock
   | KeyTermBlock
@@ -39,7 +67,8 @@ export type ContentBlock =
   | MnemonicBlock
   | WarningBlock
   | TimelineBlock
-  | ListBlock;
+  | ListBlock
+  | PayoffChartBlock;
 
 export interface Section {
   id: string;

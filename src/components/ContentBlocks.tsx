@@ -1,4 +1,5 @@
 import type { ContentBlock } from '../types';
+import { PayoffChart } from './PayoffChart';
 
 function Para({ text }: { text: string }) {
   return <p className="text-[1.05em] leading-relaxed text-slate-200 mb-4">{text}</p>;
@@ -165,6 +166,8 @@ export function ContentBlockRenderer({ block }: { block: ContentBlock }) {
       return <Timeline items={block.items} />;
     case 'list':
       return <ListBlock ordered={block.ordered} items={block.items} />;
+    case 'payoffChart':
+      return <PayoffChart block={block} />;
     default:
       return null;
   }
