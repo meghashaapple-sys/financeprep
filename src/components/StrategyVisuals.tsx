@@ -56,6 +56,7 @@ function PositionCard({ card }: { card: OptionPositionCard }) {
           {card.optionAction === 'Buy' ? 'BUY OPTION' : 'SELL OPTION'}
         </span>
       </div>
+      <p className="text-slate-300 text-[0.82em] leading-snug italic">"{card.explainer}"</p>
       <StockConsequenceBadge right={card.right} stockAction={card.stockAction} />
       <div className="flex items-center gap-1.5 text-[0.85em]">
         <span className={card.view === 'Bullish' ? 'text-emerald-400' : 'text-rose-400'}>

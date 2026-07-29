@@ -30,6 +30,7 @@ const chapter: Chapter = {
           cards: [
             {
               name: 'Long Call',
+              explainer: 'I buy the right to BUY the stock from the writer at the strike price — meaning I am the one who may buy.',
               optionAction: 'Buy',
               right: 'Right',
               stockAction: 'Buy',
@@ -40,6 +41,7 @@ const chapter: Chapter = {
             },
             {
               name: 'Short Call',
+              explainer: 'I sell someone the right to buy the stock FROM me at the strike price — meaning I am the one who must sell.',
               optionAction: 'Sell',
               right: 'Obligation',
               stockAction: 'Sell',
@@ -50,6 +52,7 @@ const chapter: Chapter = {
             },
             {
               name: 'Long Put',
+              explainer: 'I buy the right to SELL the stock to the writer at the strike price — meaning I am the one who may sell.',
               optionAction: 'Buy',
               right: 'Right',
               stockAction: 'Sell',
@@ -60,6 +63,7 @@ const chapter: Chapter = {
             },
             {
               name: 'Short Put',
+              explainer: 'I sell someone the right to sell the stock TO me at the strike price — meaning I am the one who must buy.',
               optionAction: 'Sell',
               right: 'Obligation',
               stockAction: 'Buy',

@@ -71,6 +71,11 @@ export interface PayoffChartBlock {
  */
 export interface OptionPositionCard {
   name: string; // "Long Call"
+  /** The reasoning chain spelled out in one plain-English sentence, e.g. "I sell someone the
+   *  right to sell the stock TO me at the strike price — so I must BUY if they exercise." This
+   *  is what actually makes the option-action -> stock-consequence link self-evident, rather
+   *  than requiring the reader to infer it from two separate badges. */
+  explainer: string;
   optionAction: 'Buy' | 'Sell'; // the transaction on the option contract itself
   right: 'Right' | 'Obligation';
   stockAction: 'Buy' | 'Sell'; // what happens to the underlying stock if/when exercised
