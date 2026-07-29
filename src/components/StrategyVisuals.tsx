@@ -24,14 +24,39 @@ function RightBadge({ right }: { right: 'Right' | 'Obligation' }) {
   );
 }
 
+/**
+ * The badge that actually answers "what happens to the STOCK". Deliberately separate from
+ * optionAction: MAY/MUST encodes Right vs Obligation, BUY/SELL STOCK encodes the true
+ * underlying consequence — for a short put this correctly reads "MUST BUY STOCK", even
+ * though the option itself was sold.
+ */
+function StockConsequenceBadge({ right, stockAction }: { right: 'Right' | 'Obligation'; stockAction: 'Buy' | 'Sell' }) {
+  const verb = right === 'Right' ? 'MAY' : 'MUST';
+  return (
+    <span
+      className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[0.82em] font-extrabold ${
+        right === 'Right' ? 'bg-sky-500/15 text-sky-300' : 'bg-rose-500/15 text-rose-300'
+      }`}
+    >
+      {right === 'Right' ? '🔓' : '🔒'} {verb} {stockAction.toUpperCase()} STOCK
+    </span>
+  );
+}
+
 function PositionCard({ card }: { card: OptionPositionCard }) {
   return (
     <div className="rounded-xl border border-slate-700 bg-slate-900/60 p-3 flex flex-col gap-2">
       <div className="flex items-center justify-between gap-2">
         <span className="font-extrabold text-slate-50 text-[0.95em]">{card.name}</span>
-        <ActionBadge action={card.action} />
+        <span
+          className={`inline-flex items-center px-2 py-0.5 rounded-md text-[0.72em] font-bold tracking-wide ${
+            card.optionAction === 'Buy' ? 'bg-emerald-500/15 text-emerald-300' : 'bg-amber-500/15 text-amber-300'
+          }`}
+        >
+          {card.optionAction === 'Buy' ? 'BUY OPTION' : 'SELL OPTION'}
+        </span>
       </div>
-      <RightBadge right={card.right} />
+      <StockConsequenceBadge right={card.right} stockAction={card.stockAction} />
       <div className="flex items-center gap-1.5 text-[0.85em]">
         <span className={card.view === 'Bullish' ? 'text-emerald-400' : 'text-rose-400'}>
           {card.view === 'Bullish' ? '↑' : '↓'}

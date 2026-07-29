@@ -59,11 +59,21 @@ export interface PayoffChartBlock {
   note?: string;
 }
 
-/** One of the four canonical option positions, made concrete: what you actually hold and why. */
+/**
+ * One of the four canonical option positions, made concrete. Two DIFFERENT transactions are
+ * involved and must not be collapsed into one Buy/Sell badge: `optionAction` is what you do
+ * to the OPTION CONTRACT right now (buy it or write/sell it — this is what determines premium
+ * flow and Right vs Obligation); `stockAction` is what actually happens to the UNDERLYING STOCK
+ * if the option is exercised. For calls these two happen to point the same way (buy the call →
+ * you may buy the stock), but for puts they point OPPOSITE ways — most importantly, a short put
+ * is a SELL on the option but a BUY obligation on the stock (you must buy the stock at strike
+ * if assigned), which is the single most commonly confused fact in this chapter.
+ */
 export interface OptionPositionCard {
   name: string; // "Long Call"
-  action: 'Buy' | 'Sell';
+  optionAction: 'Buy' | 'Sell'; // the transaction on the option contract itself
   right: 'Right' | 'Obligation';
+  stockAction: 'Buy' | 'Sell'; // what happens to the underlying stock if/when exercised
   premium: 'Pays premium' | 'Receives premium';
   view: 'Bullish' | 'Bearish';
   risk: string; // e.g. "Loss limited to premium"

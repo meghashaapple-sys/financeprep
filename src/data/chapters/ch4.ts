@@ -30,8 +30,9 @@ const chapter: Chapter = {
           cards: [
             {
               name: 'Long Call',
-              action: 'Buy',
+              optionAction: 'Buy',
               right: 'Right',
+              stockAction: 'Buy',
               premium: 'Pays premium',
               view: 'Bullish',
               risk: 'Limited to the premium paid',
@@ -39,8 +40,9 @@ const chapter: Chapter = {
             },
             {
               name: 'Short Call',
-              action: 'Sell',
+              optionAction: 'Sell',
               right: 'Obligation',
+              stockAction: 'Sell',
               premium: 'Receives premium',
               view: 'Bearish',
               risk: 'Unlimited (rises with spot)',
@@ -48,8 +50,9 @@ const chapter: Chapter = {
             },
             {
               name: 'Long Put',
-              action: 'Buy',
+              optionAction: 'Buy',
               right: 'Right',
+              stockAction: 'Sell',
               premium: 'Pays premium',
               view: 'Bearish',
               risk: 'Limited to the premium paid',
@@ -57,8 +60,9 @@ const chapter: Chapter = {
             },
             {
               name: 'Short Put',
-              action: 'Sell',
+              optionAction: 'Sell',
               right: 'Obligation',
+              stockAction: 'Buy',
               premium: 'Receives premium',
               view: 'Bullish',
               risk: 'Large (rises as spot falls to zero)',
@@ -69,8 +73,14 @@ const chapter: Chapter = {
         {
           type: 'callout',
           tone: 'exam',
-          title: 'The one fact examiners love to test here',
-          text: 'A BUYER always holds a RIGHT — walking away and losing only the premium is always allowed. A SELLER/WRITER always holds an OBLIGATION — they must perform if the buyer chooses to exercise, no matter how unfavourable. This is true for calls and puts alike; only the market-direction view flips between them.',
+          title: 'Two different transactions — don\'t collapse them into one',
+          text: 'Every position involves TWO separate actions: (1) what you do to the OPTION right now — buy it or write/sell it, which fixes whether you pay or receive the premium — and (2) what happens to the STOCK later if it\'s exercised. For calls these two happen to line up: buy a call and you may BUY the stock; sell a call and you must SELL the stock. For puts they flip: buy a put (an option-market "buy") and you may SELL the stock; sell/write a put (an option-market "sell") and you must BUY the stock. A short put writer has sold the option, but is on the hook to become a stock BUYER if assigned — that mismatch between "sold the option" and "must buy the stock" is the single most common source of confusion in this chapter.',
+        },
+        {
+          type: 'callout',
+          tone: 'info',
+          title: 'Why a put writer ends up buying',
+          text: 'A put gives its buyer the right to SELL the stock to someone at the strike price. That "someone" is the put writer (short put) — so when the put buyer exercises, the writer is contractually the one who must BUY. Selling a put is really selling a promise to be a buyer of last resort.',
         },
         {
           type: 'keyterm',
